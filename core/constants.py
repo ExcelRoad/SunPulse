@@ -59,3 +59,9 @@ class UserRole(models.TextChoices):
     ADMIN = 'admin', 'אדמין'
     ANALYST = 'analyst', 'אנליסט'
     VIEWER = 'viewer', 'צופה'
+
+
+class SupplierType(models.TextChoices):
+    EQUIPMENT = 'equipment', 'ציוד'
+    SERVICE = 'service', 'שירות'
+    OTHER = 'other', 'אחר'
