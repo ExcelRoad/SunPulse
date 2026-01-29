@@ -12,6 +12,14 @@ class LeadStatus(models.TextChoices):
     LOST = 'lost', 'אבוד'
 
 
+class LeadSource(models.TextChoices):
+    WEB = 'web', 'אתר'
+    PHONE = 'phone', 'טלפון'
+    FACEBOOK = 'facebook', 'פייסבוק'
+    REFERRAL = 'referral', 'הפנייה'
+    OTHER = 'other', 'אחר'
+
+
 class ContractType(models.TextChoices):
     MONITORING = 'monitoring', 'ניטור'
     LEADS = 'leads', 'לידים'
