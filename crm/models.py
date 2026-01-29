@@ -24,8 +24,7 @@ class Customer(ActiveModel, AddressMixin):
     )
 
     # Contact Info for private customer
-    first_name = models.CharField(max_length=100, blank=True, verbose_name='שם פרטי')
-    last_name = models.CharField(max_length=100, blank=True, verbose_name='שם משפחה')
+    name = models.CharField(max_length=100, blank=True, verbose_name='שם')
     id_number = models.CharField(max_length=9, blank=True,validators=[israeli_id_validator], verbose_name='תעודת זהות')
 
     # Info for business customer
@@ -57,7 +56,7 @@ class Customer(ActiveModel, AddressMixin):
     def __str__(self):
         if self.customer_type == CustomerType.BUSINESS:
             return f'{self.customer_number} | {self.company_bane}'
-        return f'{self.customer_number} | {self.first_name} {self.last_name}'
+        return f'{self.customer_number} | {self.name}'
 
     def save(self, *args, **kwargs):
         """ Adding customer number on save """
@@ -70,7 +69,7 @@ class Customer(ActiveModel, AddressMixin):
     def display_name(self):
         if self.customer_type == CustomerType.BUSINESS:
             return self.company_name
-        return f'{self.first_name} {self.last_name}'.strip()
+        return f'{self.name}'.strip()
 
 
 
@@ -162,7 +161,8 @@ class Contact(ActiveModel):
     )
     
     # פרטי איש הקשר
-    name = models.CharField(max_length=200, verbose_name='שם')
+    first_name = models.CharField(max_length=200, verbose_name='שם פרטי')
+    last_name = models.CharField(max_length=200, verbose_name='שם משפחה')
     role = models.CharField(max_length=100, blank=True, verbose_name='תפקיד')
     email = models.EmailField(blank=True, verbose_name='אימייל')
     phone = models.CharField(
@@ -176,10 +176,10 @@ class Contact(ActiveModel):
     class Meta:
         verbose_name = 'איש קשר'
         verbose_name_plural = 'אנשי קשר'
-        ordering = ['-is_primary', 'name']
+        ordering = ['-is_primary', 'first_name']
 
     def __str__(self):
-        return f'{self.name} ({self.related_entity})'
+        return f'{self.first_name} {self.last_name}'
 
     def clean(self):
         """ Make sure only one relation is active """

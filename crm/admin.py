@@ -5,14 +5,14 @@ from .models import Customer, Contact, Installer, Supplier
 class ContactInline(admin.TabularInline):
     model = Contact
     extra = 1
-    fields = ['name', 'role', 'email', 'phone', 'is_primary']
+    fields = ['first_name', 'last_name', 'role', 'email', 'phone', 'is_primary']
 
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['customer_number', 'display_name', 'customer_type', 'city', 'phone', 'is_active']
     list_filter = ['customer_type', 'is_active', 'city']
-    search_fields = ['customer_number', 'first_name', 'last_name', 'company_name', 'email', 'phone']
+    search_fields = ['customer_number', 'name', 'company_name', 'email', 'phone']
     readonly_fields = ['customer_number', 'created_at', 'updated_at']
     inlines = [ContactInline]
     
@@ -21,7 +21,7 @@ class CustomerAdmin(admin.ModelAdmin):
             'fields': ('customer_number', 'customer_type', 'is_active')
         }),
         ('פרטים אישיים', {
-            'fields': ('first_name', 'last_name', 'id_number'),
+            'fields': ('name', 'id_number'),
             'classes': ('collapse',),
         }),
         ('פרטי חברה', {
@@ -32,7 +32,7 @@ class CustomerAdmin(admin.ModelAdmin):
             'fields': ('email', 'phone', 'mobile')
         }),
         ('כתובת', {
-            'fields': ('street', 'city', 'postal_code')
+            'fields': ('street', 'city', 'postal_code', 'country')
         }),
         ('נוסף', {
             'fields': ('notes', 'created_at', 'updated_at'),
@@ -65,9 +65,9 @@ class SupplierAdmin(admin.ModelAdmin):
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ['name', 'entity_type', 'related_entity', 'role', 'phone', 'email', 'is_primary']
+    list_display = ['first_name', 'last_name', 'entity_type', 'related_entity', 'role', 'phone', 'email', 'is_primary']
     list_filter = ['is_primary']
-    search_fields = ['name', 'email', 'phone']
+    search_fields = ['first_name', 'last_name', 'email', 'phone']
     
     def entity_type(self, obj):
         return obj.entity_type
